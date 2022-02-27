@@ -63,3 +63,7 @@ ticketSchema.plugin(updateIfCurrentPlugin);
 
 
 ส่วนจ่ายตังเช้นตัดเงินผ่าน credit ใช้บริการของ https://dashboard.stripe.com/
+
+
+kubectl config view เพื่อใช้ดูพวก context ต่างๆ เช่นเรามี cluster หลายตัวเราก็มาดูว่ามี context cluster ตัวไหนบ้าง
+การ change context ไปมาใช้คำสั่ง kubectl config use-context <cluster name>
