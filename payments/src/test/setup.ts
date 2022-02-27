@@ -1,7 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import request from 'supertest';
-import { app } from '../app';
 import jwt from 'jsonwebtoken';
 
 declare global {
@@ -18,9 +16,8 @@ beforeAll(async () => {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
   mongo = await MongoMemoryServer.create();
-  const mongoUri = await mongo.getUri();
-
-  await mongoose.connect(mongoUri);
+  const uri = mongo.getUri();
+  await mongoose.connect(uri);
 });
 
 beforeEach(async () => {
@@ -44,10 +41,8 @@ global.signin = (id?: string) => {
     email: 'test@test.com',
   };
 
-  // console.log(payload);
-
   // Create the JWT!
-  const token = jwt.sign(payload, process.env.JWT_KEY!);
+  const token  = jwt.sign(payload, process.env.JWT_KEY!);
 
   // Build session Object. { jwt: MY_JWT }
   const session = { jwt: token };
@@ -59,6 +54,5 @@ global.signin = (id?: string) => {
   const base64 = Buffer.from(sessionJSON).toString('base64');
 
   // return a string thats the cookie with the encoded data
-  // console.log(`session=${base64}`);
   return [`session=${base64}`];
 };
